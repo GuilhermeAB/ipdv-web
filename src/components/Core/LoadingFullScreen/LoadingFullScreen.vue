@@ -39,6 +39,13 @@
         'isLoading',
       ]),
     },
+    mounted: function () {
+      setInterval(() => {
+        if (this.isLoading) {
+          this.$store.dispatch('loading/toggleLoading', { value: false });
+        }
+      }, 3000);
+    },
   };
 </script>
 

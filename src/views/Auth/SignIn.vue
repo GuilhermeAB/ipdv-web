@@ -49,7 +49,7 @@
     },
     methods: {
       signIn: async function () {
-        this.$store.dispatch('loading/toggleLoading');
+        this.$store.dispatch('loading/toggleLoading', { value: true });
 
         await axios({
           url: '/auth',
@@ -58,7 +58,7 @@
         });
 
         this.$store.dispatch('auth/handlerAuthentication', { value: true });
-        this.$store.dispatch('loading/toggleLoading');
+        this.$store.dispatch('loading/toggleLoading', { value: true });
       },
     },
   };

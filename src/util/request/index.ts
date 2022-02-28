@@ -3,6 +3,7 @@ import type { AxiosResponse, AxiosError } from 'axios';
 import axios from 'axios';
 import store from '@/store';
 import { showError, showWarning, showSuccess } from '../notification';
+import i18n from '@/i18n';
 
 const FORBIDDEN = 403;
 
@@ -16,19 +17,19 @@ axios.defaults.responseType = 'json';
 function handleRequestResponseMessages (messages: Record<string, any>): void {
   if (messages.errors) {
     messages.errors.forEach((m: Record<string, any>) => {
-      showError({ message: m.code });
+      showError({ message: i18n.t(m.code, m.params) as string });
     });
   }
   if (messages.warnings) {
     messages.warnings.forEach((m: Record<string, any>) => {
-      showWarning({ message: m.code });
+      showWarning({ message: i18n.t(m.code, m.params) as string });
     });
   }
   if (messages.information) {
-    showSuccess({ message: messages.information.code });
+    showSuccess({ message: i18n.t(messages.information.code, messages.information.params) as string });
   }
   if (messages.error) {
-    showError({ message: messages.error.code });
+    showError({ message: i18n.t(messages.error.code, messages.error.params) as string });
   }
 }
 

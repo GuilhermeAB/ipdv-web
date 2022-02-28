@@ -19,3 +19,14 @@
     },
   };
 </script>
+
+<style lang='scss'>
+  .swal2-confirm {
+  background-color: var(--v-primary-base) !important;
+}
+
+  .swal2-cancel {
+    background: none !important;
+    color: var(--v-error-base) !important;
+  }
+</style>

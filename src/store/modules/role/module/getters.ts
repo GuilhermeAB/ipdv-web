@@ -3,7 +3,7 @@ import type { GetterTree } from 'vuex';
 import type { RoleStateType } from './state';
 
 const getters: GetterTree<RoleStateType, RootState> = {
-  getList: (state: Readonly<RoleStateType>) => state.list
+  roleList: (state: Readonly<RoleStateType>) => state.list
 };
 
 export default getters;

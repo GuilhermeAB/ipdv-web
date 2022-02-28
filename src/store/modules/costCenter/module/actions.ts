@@ -1,7 +1,7 @@
 import type { RootState } from '@/store';
 import axios from 'axios';
 import type { ActionContext, ActionTree } from 'vuex';
-import type { CostCenterStateType } from './state';
+import type { CostCenterStateType, CostCenterType } from './state';
 
 const actions: ActionTree<CostCenterStateType, RootState> = {
   getCostCenterList: async function ({commit}: ActionContext<CostCenterStateType, RootState>) {
@@ -12,6 +12,16 @@ const actions: ActionTree<CostCenterStateType, RootState> = {
     });
 
     commit('setCostCenterList', data.list);
+  },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getById: async function ({commit}: ActionContext<CostCenterStateType, RootState>, payload: { id: string, }): Promise<CostCenterType | undefined> {
+    const { data } = await axios({
+      url: `/cost-center/${payload.id}`,
+      method: 'GET',
+      withCredentials: true,
+    });
+
+    return data.item as CostCenterType | undefined;
   },
   addCostCenter: async function ({dispatch}: ActionContext<CostCenterStateType, RootState>, payload: { description: string, }): Promise<void> {
     await axios({
@@ -27,12 +37,9 @@ const actions: ActionTree<CostCenterStateType, RootState> = {
   },
   updateCostCenter: async function ({dispatch}: ActionContext<CostCenterStateType, RootState>, payload: { id: string, description: string, }): Promise<void> {
     await axios({
-      url: '/cost-center',
+      url: `/cost-center/${payload.id}`,
       method: 'PATCH',
       withCredentials: true,
-      params: {
-        id: payload.id,
-      },
       data: {
         description: payload.description
       }
@@ -42,37 +49,27 @@ const actions: ActionTree<CostCenterStateType, RootState> = {
   },
   deleteCostCenter: async function ({dispatch}: ActionContext<CostCenterStateType, RootState>, payload: { id: string, }): Promise<void> {
     await axios({
-      url: '/cost-center',
+      url: `/cost-center/${payload.id}`,
       method: 'DELETE',
       withCredentials: true,
-      params: {
-        id: payload.id,
-      },
     });
 
     await dispatch('getCostCenterList');
   },
   deleteDepartment: async function ({dispatch}: ActionContext<CostCenterStateType, RootState>, payload: { id: string, departmentId: string, }): Promise<void> {
     await axios({
-      url: '/cost-center',
+      url: `/cost-center/${payload.id}/${payload.departmentId}`,
       method: 'DELETE',
       withCredentials: true,
-      params: {
-        id: payload.id,
-        departmentId: payload.departmentId,
-      },
     });
 
     await dispatch('getCostCenterList');
   },
   addDepartment: async function ({dispatch}: ActionContext<CostCenterStateType, RootState>, payload: { id: string, departmentId: string, }): Promise<void> {
     await axios({
-      url: '/cost-center',
+      url: `/cost-center/${payload.id}`,
       method: 'POST',
       withCredentials: true,
-      params: {
-        id: payload.id,
-      },
       data: {
         departmentId: payload.departmentId,
       }

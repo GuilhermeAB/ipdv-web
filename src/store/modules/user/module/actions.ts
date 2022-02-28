@@ -17,12 +17,9 @@ const actions: ActionTree<UserStateType, RootState> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getById: async function ({commit}: ActionContext<UserStateType, RootState>, payload: { id: string, }): Promise<UserType | undefined> {
     const { data } = await axios({
-      url: '/user',
+      url: `/user/${payload.id}`,
       method: 'GET',
       withCredentials: true,
-      params: {
-        id: payload.id,
-      }
     });
 
     return data.item as UserType | undefined;
@@ -42,12 +39,9 @@ const actions: ActionTree<UserStateType, RootState> = {
   },
   updateUser: async function ({dispatch}: ActionContext<UserStateType, RootState>, payload: { id: string, name: string, roleId: string, }): Promise<UserType> {
     const { data } = await axios({
-      url: '/user',
+      url: `/user/${payload.id}`,
       method: 'PUT',
       withCredentials: true,
-      params: {
-        id: payload.id,
-      },
       data: {
         name: payload.name,
         role: payload.roleId
@@ -66,12 +60,9 @@ const actions: ActionTree<UserStateType, RootState> = {
   },
   deleteUser: async function ({dispatch}: ActionContext<UserStateType, RootState>, payload: { id: string, }): Promise<void> {
     await axios({
-      url: '/user',
+      url: `/user/${payload.id}`,
       method: 'DELETE',
       withCredentials: true,
-      params: {
-        id: payload.id,
-      }
     });
 
     await dispatch('getUserList');
